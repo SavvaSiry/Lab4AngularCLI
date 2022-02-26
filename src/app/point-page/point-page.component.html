@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{title}}</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+<div>
+  <h1>{{title}}</h1>
+</div>
+
+<input [(ngModel)]="x" type="number">
+<input [(ngModel)]="y" type="number">
+<input [(ngModel)]="r" type="number">
+<button (click)="sendPoint()">Send</button>
+<table>
+  <thead>
+  <tr>
+    <th>x</th>
+    <th>y</th>
+    <th>r</th>
+    <th>time</th>
+    <th>status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of points">
+    <td>{{item.x}}</td>
+    <td>{{item.y}}</td>
+    <td>{{item.r}}</td>
+    <td>{{item.time}}</td>
+    <td>{{item.status}}</td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
