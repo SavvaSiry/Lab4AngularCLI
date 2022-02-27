@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {CookieService} from "ngx-cookie-service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthServiceService {
     withCredentials: true
   };
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private cookies: CookieService) { }
 
   auth() {
     this.http.get(this.uri + '/authenticate', this.httpOptions)
@@ -29,10 +30,15 @@ export class AuthServiceService {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('auth_token');
+    this.cookies.delete('JSESSIONID');
+    // this.cookies.deleteAll();
+
+    // localStorage.removeItem('token');
   }
 
   public get logIn(): boolean {
     return (localStorage.getItem('token') !== null);
   }
 }
+

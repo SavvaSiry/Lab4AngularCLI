@@ -9,6 +9,7 @@ import { PointPageComponent } from './point-page/point-page.component';
 import {RouterModule, Routes} from "@angular/router";
 import {ButtonModule} from "primeng/button";
 import {MenubarModule} from "primeng/menubar";
+import {CookieService} from "ngx-cookie-service";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -30,7 +31,7 @@ const routes: Routes = [
     MenubarModule
   ],
   exports: [RouterModule],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

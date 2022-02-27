@@ -1,6 +1,7 @@
 import {Component, NgModule, OnInit} from '@angular/core';
 import {APP_BASE_HREF} from "@angular/common";
 import {MenuItem} from "primeng/api";
+import {AuthServiceService} from "./services/auth-service.service";
 
 @Component({
   selector: 'my-app',
@@ -14,14 +15,14 @@ export class AppComponent implements OnInit {
   title = 'Lab4AngularCLI';
   items: MenuItem[];
 
-  constructor() {
+  constructor(private authService: AuthServiceService) {
     this.items = [];
   }
 
   ngOnInit() {
     this.items = [
       {
-        label: 'Войти',
+        // label: 'Выйти'  command: this.authService.logout,
       },
       // {
       //   label: 'Edit',
@@ -32,6 +33,11 @@ export class AppComponent implements OnInit {
       //   ]
       // }
     ];
+  }
+
+  logout() {
+    this.authService.logout();
+    console.log('click')
   }
 }
 

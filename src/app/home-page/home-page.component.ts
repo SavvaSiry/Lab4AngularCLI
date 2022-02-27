@@ -12,6 +12,7 @@ export class HomePageComponent {
   }
 
   ngOnInit() {
+
   }
 
   toPoints() {
