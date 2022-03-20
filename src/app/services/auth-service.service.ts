@@ -31,10 +31,10 @@ export class AuthServiceService {
 
   logout() {
     localStorage.removeItem('auth_token');
-    this.cookies.delete('JSESSIONID');
+    // this.cookies.delete('JSESSIONID');
     // this.cookies.deleteAll();
-
     // localStorage.removeItem('token');
+    this.router.navigate([''])
   }
 
   public get logIn(): boolean {

@@ -10,6 +10,9 @@ import {RouterModule, Routes} from "@angular/router";
 import {ButtonModule} from "primeng/button";
 import {MenubarModule} from "primeng/menubar";
 import {CookieService} from "ngx-cookie-service";
+import {TableModule} from "primeng/table";
+import { ClanComponent } from './clan/clan.component';
+import { CreatureComponent } from './creature/creature.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -20,7 +23,9 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     HomePageComponent,
-    PointPageComponent
+    PointPageComponent,
+    ClanComponent,
+    CreatureComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +33,8 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes),
     ButtonModule,
-    MenubarModule
+    MenubarModule,
+    TableModule
   ],
   exports: [RouterModule],
   providers: [CookieService],

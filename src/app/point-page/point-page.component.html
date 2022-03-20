@@ -16,25 +16,35 @@
 <input [(ngModel)]="y" type="number">
 <input [(ngModel)]="r" type="number">
 <button (click)="sendPoint()">Send</button>
-<table>
-  <thead>
-  <tr>
-    <th>x</th>
-    <th>y</th>
-    <th>r</th>
-    <th>time</th>
-    <th>status</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let item of points">
-    <td>{{item.x}}</td>
-    <td>{{item.y}}</td>
-    <td>{{item.r}}</td>
-    <td>{{item.time}}</td>
-    <td>{{item.status}}</td>
-  </tr>
-  </tbody>
-</table>
+<div class="card">
+  <p-table [value]="points" [scrollable]="true" scrollHeight="500px" scrollDirection="both">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:100px">X</th>
+        <th style="width:200px">Y</th>
+        <th style="width:200px">R</th>
+        <th style="width:200px">Time</th>
+        <th style="width:200px">Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-points>
+      <tr>
+        <td style="width:100px">{{points.x}}</td>
+        <td style="width:200px">{{points.y}}</td>
+        <td style="width:200px">{{points.r}}</td>
+        <td style="width:200px">{{points.time}}</td>
+        <td style="width:200px">{{points.status}}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <tr>
+        <td style="width:100px">Id</td>
+        <td style="width:200px">Name</td>
+        <td style="width:200px">Type</td>
+        <td style="width:200px">Location</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
 </body>
 </html>
