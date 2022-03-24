@@ -1,4 +1,4 @@
-import {Component, NgModule, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {APP_BASE_HREF} from "@angular/common";
 import {MenuItem} from "primeng/api";
 import {AuthServiceService} from "./services/auth-service.service";
@@ -22,7 +22,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        // label: 'Выйти'  command: this.authService.logout,
+        label: 'Creatures', routerLink: ['/creatures']
+      },
+      {
+        label: 'Points',  routerLink: ['/points']
       },
       // {
       //   label: 'Edit',

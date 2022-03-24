@@ -1,1 +1,90 @@
-<p>creature works!</p>
+<p-toolbar styleClass="mb-4">
+  <ng-template pTemplate="left">
+    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()">
+    </button>
+    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+            (click)="deleteSelected()" [disabled]="!selected || !selected.length">
+    </button>
+  </ng-template>
+</p-toolbar>
+<div class="card col-12">
+  <p-table [value]="creatures" [rows]="10" [paginator]="true" styleClass="p-datatable-gridlines" [rowHover]="true"
+           [(selection)]="selected">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 2rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="id" style="width:100px">Id
+          <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th pSortableColumn="day" style="width:200px">Birthday
+          <p-sortIcon field="day"></p-sortIcon>
+        </th>
+        <th pSortableColumn="name" style="width:200px">Name
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="clan" style="width:200px">Clan
+          <p-sortIcon field="clan"></p-sortIcon>
+        </th>
+        <th style="width:110px"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-creatures>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="creatures"></p-tableCheckbox>
+        </td>
+        <td style="width:100px">{{creatures.id}}</td>
+        <td style="width:200px">{{creatures.birthday | date: 'MM/dd/yyyy'}}</td>
+        <td style="width:200px">{{creatures.name}}</td>
+        <td style="width:200px">{{creatures.clan.name}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                  (click)="edit(creatures)">
+          </button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                  (click)="delete(creatures)">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{creatures ? creatures.length : 0 }} items.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog header="Title" [(visible)]="display" [style]="{width: '500 px'}">
+  Content
+</p-dialog>
+
+<p-dialog [(visible)]="display" [modal]="true" [style]="{width: '450px'}" header="Creature Details"
+          styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="Clan">Clan</label>
+      <p-dropdown id="Clan" [options]="clans" [(ngModel)]="creature.clan" placeholder="Select a Clan" optionLabel="name"
+                  [showClear]="true"></p-dropdown>
+    </div>
+    <div class="field">
+      <label for="Name">Name</label>
+      <input type="text" pInputText id="Name" [(ngModel)]="creature.name" required autofocus/>
+    </div>
+
+      <div class="field">
+        <label for="birthday">Birthday</label>
+        <p-calendar appendTo="body" id="birthday" inputId="basic" [(ngModel)]="creature.birthday" dateFormat="dd/mm/yy"></p-calendar>
+      </div>
+
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="send()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+

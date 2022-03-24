@@ -1,50 +1,82 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>{{title}}</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-<div>
-  <h1>{{title}}</h1>
-</div>
+<p-toolbar styleClass="mb-4">
+  <ng-template pTemplate="left">
+    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()">
+    </button>
+    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+            (click)="deleteSelectedPoints()" [disabled]="!selectedPoints || !selectedPoints.length">
+    </button>
+  </ng-template>
+</p-toolbar>
 
-<input [(ngModel)]="x" type="number">
-<input [(ngModel)]="y" type="number">
-<input [(ngModel)]="r" type="number">
-<button (click)="sendPoint()">Send</button>
-<div class="card">
-  <p-table [value]="points" [scrollable]="true" scrollHeight="500px" scrollDirection="both">
+<div class="card col-12">
+  <p-table [value]="points" [rows]="10" [paginator]="true" styleClass="p-datatable-gridlines" [rowHover]="true"
+           [(selection)]="selectedPoints">
     <ng-template pTemplate="header">
       <tr>
-        <th style="width:100px">X</th>
+        <th style="width: 2rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="x" style="width:100px">X
+          <p-sortIcon field="x"></p-sortIcon>
+        </th>
         <th style="width:200px">Y</th>
-        <th style="width:200px">R</th>
-        <th style="width:200px">Time</th>
+        <th style="width:100px">R</th>
+        <th pSortableColumn="time" style="width:200px">Time
+          <p-sortIcon field="time"></p-sortIcon>
+        </th>
         <th style="width:200px">Status</th>
+        <th style="width:110px"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-points>
       <tr>
+        <td>
+          <p-tableCheckbox [value]="points"></p-tableCheckbox>
+        </td>
         <td style="width:100px">{{points.x}}</td>
         <td style="width:200px">{{points.y}}</td>
         <td style="width:200px">{{points.r}}</td>
         <td style="width:200px">{{points.time}}</td>
         <td style="width:200px">{{points.status}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                  (click)="editPoint(points)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                  (click)="deletePoint(points)"></button>
+        </td>
       </tr>
     </ng-template>
-    <ng-template pTemplate="footer">
-      <tr>
-        <td style="width:100px">Id</td>
-        <td style="width:200px">Name</td>
-        <td style="width:200px">Type</td>
-        <td style="width:200px">Location</td>
-      </tr>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{points ? points.length : 0 }} items.
+      </div>
     </ng-template>
   </p-table>
 </div>
-</body>
-</html>
+
+<p-dialog [(visible)]="pointDialog" [modal]="true" [style]="{width: '450px'}" header="Point Details"
+          styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="x">X</label>
+      <input type="text" pInputText id="x" [(ngModel)]="x" required autofocus/>
+    </div>
+    <div class="field">
+      <label for="y">Y</label>
+      <input type="text" pInputText id="y" [(ngModel)]="y" required autofocus/>
+    </div>
+    <div class="field">
+      <label for="r">R</label>
+      <input type="text" pInputText id="r" [(ngModel)]="r" required autofocus/>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="sendPoint()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+
+

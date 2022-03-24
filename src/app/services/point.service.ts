@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Point} from "../modules/point.model";
+import {Point} from "../modeles/point.model";
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Creature} from "../modules/creature.module";
+import {Creature} from "../modeles/creature.module";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Clan} from "../modules/clan.module";
+import {Clan} from "../modeles/clan.module";
 
 @Component({
   selector: 'app-clan',

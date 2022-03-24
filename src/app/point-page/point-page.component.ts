@@ -1,24 +1,25 @@
 import {Component, OnInit} from '@angular/core';
-import {Point} from "../modules/point.model";
+import {Point} from "../modeles/point.model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {PointService} from "../services/point.service";
+import {ConfirmationService, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-point-page',
   templateUrl: './point-page.component.html',
-  styleUrls: ['./point-page.component.css']
+  styleUrls: ['./point-page.component.css'],
+  providers: [MessageService,ConfirmationService]
 })
+
 export class PointPageComponent implements OnInit {
 
-  title = 'Lab4AngularCLI';
+  pointDialog: boolean = false;
   x: number = 0;
   y: number = 0;
   r: number = 0;
-  point: Point | undefined;
+  point?: Point;
   points: Point[] = [];
-
   checkPointUrl = 'http://localhost:8081/';
-
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -26,7 +27,11 @@ export class PointPageComponent implements OnInit {
     withCredentials: true
   };
 
-  constructor(private http: HttpClient, private pointService: PointService) {
+  submitted?: boolean;
+
+  selectedPoints?: Point[];
+
+  constructor(private http: HttpClient, private pointService: PointService, private messageService: MessageService, private confirmationService: ConfirmationService) {
     this.points = pointService.getPoints();
   }
 
@@ -39,8 +44,8 @@ export class PointPageComponent implements OnInit {
       })
   }
 
-
   sendPoint() {
+    this.submitted = true;
     return this.http.post<Point>(this.checkPointUrl + 'post',
       {x: this.x, y: this.y, r: this.r}, this.httpOptions)
       .subscribe({
@@ -50,10 +55,57 @@ export class PointPageComponent implements OnInit {
         },
         error: error => console.log('Eror while send Post', error)
       });
+    this.points = [...this.points];
+    this.pointDialog = false;
+    this.point = {};
   }
 
   drawPoint(point: Point | undefined): void {
     if (point == undefined) return;
     this.points.push(point);
+  }
+
+  openNew() {
+    this.point = {};
+    this.submitted = true;
+    this.pointDialog = true;
+  }
+
+  hideDialog() {
+    this.pointDialog = false;
+    this.submitted = false;
+  }
+
+  editPoint(point: Point) {
+    this.point = {...point};
+    this.pointDialog = true;
+  }
+
+  deletePoint(point: Point) {
+    console.log("Start method DELETE")
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete X: ' + point.x + ' Y: ' + point.y + ' R: ' + point.r +' ?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.points.splice(this.points.indexOf(point), 1);
+        this.point = {};
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Point Deleted', life: 3000});
+      }
+    });
+    console.log("Finish method DELETE")
+  }
+
+  deleteSelectedPoints() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete the selected points?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.points = this.points.filter(val => !this.selectedPoints?.includes(val));
+        this.selectedPoints = [];
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
+      }
+    });
   }
 }
