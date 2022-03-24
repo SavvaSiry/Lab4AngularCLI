@@ -10,7 +10,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {ButtonModule} from "primeng/button";
 import {MenubarModule} from "primeng/menubar";
 import {CookieService} from "ngx-cookie-service";
-import {ClanComponent} from './clan/clan.component';
 import {CreatureComponent} from './creature/creature.component';
 import {TableModule} from "primeng/table";
 import {ToolbarModule} from "primeng/toolbar";
@@ -22,11 +21,13 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {InputMaskModule} from "primeng/inputmask";
 import {DropdownModule} from "primeng/dropdown";
 import {CalendarModule} from "primeng/calendar";
+import {MiningComponent} from './mining/mining.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
   {path: 'points', component: PointPageComponent},
-  {path: 'creatures', component: CreatureComponent}
+  {path: 'creatures', component: CreatureComponent},
+  {path: 'mining', component: MiningComponent},
 ];
 
 @NgModule({
@@ -34,8 +35,8 @@ const routes: Routes = [
     AppComponent,
     HomePageComponent,
     PointPageComponent,
-    ClanComponent,
-    CreatureComponent
+    CreatureComponent,
+    MiningComponent
   ],
   imports: [
     BrowserModule,
@@ -59,5 +60,6 @@ const routes: Routes = [
   providers: [CookieService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }

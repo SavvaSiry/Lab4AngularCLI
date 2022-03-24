@@ -27,6 +27,9 @@ export class AppComponent implements OnInit {
       {
         label: 'Points',  routerLink: ['/points']
       },
+      {
+        label: 'Mining',  routerLink: ['/mining']
+      },
       // {
       //   label: 'Edit',
       //   icon: 'pi pi-fw pi-pencil',
