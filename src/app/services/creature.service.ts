@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Point} from "../modeles/point.model";
-import {Creature} from "../modeles/creature.module";
+import {Point} from "../modules/point.model";
+import {Creature} from "../modules/creature.module";
 
 @Injectable({
   providedIn: 'root'

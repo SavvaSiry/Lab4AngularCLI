@@ -37,26 +37,27 @@ const routes: Routes = [
     ClanComponent,
     CreatureComponent
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        RouterModule.forRoot(routes),
-        ButtonModule,
-        MenubarModule,
-        TableModule,
-        ToolbarModule,
-        DialogModule,
-        RippleModule,
-        BrowserAnimationsModule,
-        InputTextModule,
-        ConfirmDialogModule,
-        InputMaskModule,
-        DropdownModule,
-        CalendarModule
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    RouterModule.forRoot(routes),
+    ButtonModule,
+    MenubarModule,
+    TableModule,
+    ToolbarModule,
+    DialogModule,
+    RippleModule,
+    BrowserAnimationsModule,
+    InputTextModule,
+    ConfirmDialogModule,
+    InputMaskModule,
+    DropdownModule,
+    CalendarModule,
+  ],
   exports: [RouterModule],
   providers: [CookieService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

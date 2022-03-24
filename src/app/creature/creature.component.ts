@@ -2,14 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CreatureService} from "../services/creature.service";
 import {ConfirmationService, MessageService} from "primeng/api";
-import {Creature} from '../modeles/creature.module';
-import {Clan} from "../modeles/clan.module";
+import {Creature} from '../modules/creature.module';
+import {Clan} from "../modules/clan.module";
 
 @Component({
   selector: 'app-creature',
   templateUrl: './creature.component.html',
   styleUrls: ['./creature.component.css'],
-  providers: [MessageService,ConfirmationService]
+  providers: [MessageService, ConfirmationService]
 })
 
 export class CreatureComponent implements OnInit {
@@ -34,7 +34,7 @@ export class CreatureComponent implements OnInit {
   };
 
 
-  constructor(private http: HttpClient, private creatureService: CreatureService, private messageService: MessageService, private confirmationService: ConfirmationService ) {
+  constructor(private http: HttpClient, private creatureService: CreatureService, private messageService: MessageService, private confirmationService: ConfirmationService) {
   }
 
   ngOnInit(): void {
@@ -54,15 +54,16 @@ export class CreatureComponent implements OnInit {
 
   send() {
     this.submitted = true;
-    return this.http.post<Creature>(this.url + 'post/creature',
+    this.http.post<Creature>(this.url + 'post/creature',
       this.creature, this.httpOptions)
       .subscribe({
         next: (data: any) => {
           this.creatures.push(data);
         },
-        error: error => this.messageService.add({severity:'error', summary: 'Error', detail: error, life: 3000}),
+        error: error => this.messageService.add({severity: 'error', summary: 'Error', detail: error, life: 3000}),
       });
     this.display = false;
+    this.submitted = false;
     this.creature = {};
   }
 
@@ -84,18 +85,18 @@ export class CreatureComponent implements OnInit {
 
   delete(creature: Creature) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete: ' + creature.name +' ?',
+      message: 'Are you sure you want to delete: ' + creature.name + ' ?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        return this.http.post(this.url + 'delete/creature',
+        this.http.post(this.url + 'delete/creature',
           creature, this.httpOptions)
           .subscribe({
-            error: error => this.messageService.add({severity:'error', summary: 'Error', detail: error, life: 3000}),
+            error: error => this.messageService.add({severity: 'error', summary: 'Error', detail: error, life: 3000}),
           });
         this.creatures.splice(this.creatures.indexOf(creature), 1);
         this.creature = {};
-        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Deleted', life: 3000});
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Deleted', life: 3000});
       }
     });
   }
@@ -106,14 +107,32 @@ export class CreatureComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        return this.http.post(this.url + 'delete/creatures',
+        this.http.post(this.url + 'delete/creatures',
           this.selected, this.httpOptions)
           .subscribe({
-            error: error => this.messageService.add({severity:'error', summary: 'Error', detail: error, life: 3000}),
+            error: error => this.messageService.add({severity: 'error', summary: 'Error', detail: error, life: 3000}),
+            next: value => {
+              if (value == true) {
+                this
+                  .creatures = this.creatures.filter(val => !this.selected?.includes(val));
+                this
+                  .selected = [];
+                this
+                  .messageService.add({
+                  severity: 'success',
+                  summary: 'Successful',
+                  detail: 'Products Deleted',
+                  life: 3000
+                });
+              } else this
+                .messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Can\'t Delete',
+                  life: 3000
+                });
+            }
           });
-        this.creatures = this.creatures.filter(val => !this.selected?.includes(val));
-        this.selected = [];
-        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
       }
     });
   }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Point} from "../modeles/point.model";
+import {Point} from "../modules/point.model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {PointService} from "../services/point.service";
 import {ConfirmationService, MessageService} from "primeng/api";
@@ -46,7 +46,7 @@ export class PointPageComponent implements OnInit {
 
   sendPoint() {
     this.submitted = true;
-    return this.http.post<Point>(this.checkPointUrl + 'post',
+    this.http.post<Point>(this.checkPointUrl + 'post',
       {x: this.x, y: this.y, r: this.r}, this.httpOptions)
       .subscribe({
         next: (data: any) => {
@@ -58,6 +58,7 @@ export class PointPageComponent implements OnInit {
     this.points = [...this.points];
     this.pointDialog = false;
     this.point = {};
+    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Point Deleted', life: 3000});
   }
 
   drawPoint(point: Point | undefined): void {
@@ -82,7 +83,6 @@ export class PointPageComponent implements OnInit {
   }
 
   deletePoint(point: Point) {
-    console.log("Start method DELETE")
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete X: ' + point.x + ' Y: ' + point.y + ' R: ' + point.r +' ?',
       header: 'Confirm',
@@ -93,7 +93,6 @@ export class PointPageComponent implements OnInit {
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Point Deleted', life: 3000});
       }
     });
-    console.log("Finish method DELETE")
   }
 
   deleteSelectedPoints() {
