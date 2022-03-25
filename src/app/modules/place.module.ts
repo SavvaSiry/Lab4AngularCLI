@@ -1,3 +1,5 @@
+import {Location} from "./location.module";
+
 export interface Place {
   id?: number;
   name?: string;

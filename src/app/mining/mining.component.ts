@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {CreatureService} from "../services/creature.service";
 import {ConfirmationService, MessageService} from "primeng/api";
-import {Creature} from '../modules/creature.module';
 import {Mining} from "../modules/mining.module";
 
 
@@ -34,11 +32,11 @@ export class MiningComponent implements OnInit {
   };
 
 
-  constructor(private http: HttpClient, private creatureService: CreatureService, private messageService: MessageService, private confirmationService: ConfirmationService) {
+  constructor(private http: HttpClient, private messageService: MessageService, private confirmationService: ConfirmationService) {
   }
 
   ngOnInit(): void {
-    this.http.get<Creature[]>(this.url + 'mining', this.httpOptions)
+    this.http.get<Mining[]>(this.url + 'mining', this.httpOptions)
       .subscribe({
         next: (data: any) => {
           this.entities = data;
@@ -48,7 +46,7 @@ export class MiningComponent implements OnInit {
 
   send() {
     this.submitted = true;
-    this.http.post<Creature>(this.url + 'post/mining',
+    this.http.post<Mining>(this.url + 'post/mining',
       this.entity, this.httpOptions)
       .subscribe({
         next: (data: any) => {
